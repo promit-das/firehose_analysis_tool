@@ -1,0 +1,72 @@
+{
+  "default": {
+    "event_ts_paths": [
+      "bleRssiUpdate.rssiNotification.blePayload.timestamp",
+      "bleRssiUpdate.rssiNotification.apRssiMeasurements.0.timestamp",
+      "buttonPress.buttonNotification.timestamp",
+      "buttonPress.timestamp",
+      "beaconUpdate.timestamp",
+      "event_ts_ms",
+      "eventTsMs",
+      "event.timestamp_ms",
+      "event.timestamp",
+      "payload.event_ts_ms",
+      "payload.timestamp_ms",
+      "payload.timestamp"
+    ],
+    "beacon_mac_paths": [
+      "bleRssiUpdate.rssiNotification.macAddress",
+      "buttonPress.buttonNotification.macAddress",
+      "beaconUpdate.macAddress",
+      "beacon_mac",
+      "beacon.mac",
+      "payload.beacon_mac",
+      "payload.beacon.mac",
+      "device.beacon_mac"
+    ],
+    "location_id_paths": [
+      "bleRssiUpdate.location.locationId",
+      "buttonPress.location.locationId",
+      "beaconUpdate.location.locationId",
+      "location.locationId",
+      "location_id",
+      "location.id",
+      "payload.location_id",
+      "payload.location.id"
+    ]
+  },
+  "event_types": {
+    "BLE_RSSI_UPDATE": {
+      "event_ts_paths": [
+        "bleRssiUpdate.rssiNotification.blePayload.timestamp",
+        "bleRssiUpdate.rssiNotification.apRssiMeasurements.0.timestamp",
+        "recordTimestamp"
+      ],
+      "beacon_mac_paths": [
+        "bleRssiUpdate.rssiNotification.macAddress"
+      ],
+      "location_id_paths": [
+        "bleRssiUpdate.location.locationId"
+      ]
+    },
+    "button_press": {
+      "event_ts_paths": [
+        "button.ts_ms",
+        "button.timestamp_ms",
+        "payload.button.ts_ms"
+      ]
+    },
+    "beacon_update": {
+      "event_ts_paths": [
+        "beacon.ts_ms",
+        "beacon.timestamp_ms",
+        "payload.beacon.ts_ms"
+      ],
+      "beacon_mac_paths": [
+        "beacon.mac",
+        "payload.beacon.mac",
+        "beacon_mac"
+      ]
+    }
+  }
+}

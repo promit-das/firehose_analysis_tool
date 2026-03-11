@@ -1,0 +1,6 @@
+{"record_uid":"r1","tenant_id":"tenant-a","event_type":"button_press","record_ts_ms":1700000010000,"beacon":{"mac":"B1"},"button":{"ts_ms":1700000000000},"location":{"id":"L1"}}
+{"record_uid":"r2","tenant_id":"tenant-a","event_type":"button_press","record_ts_ms":1700000021000,"beacon":{"mac":"B1"},"button":{"ts_ms":1700000010000},"location":{"id":"L1"}}
+{"record_uid":"r3","tenant_id":"tenant-a","event_type":"button_press","record_ts_ms":1700000045000,"beacon":{"mac":"B1"},"button":{"ts_ms":1700000023000},"location":{"id":"L1"}}
+{"record_uid":"r4","tenant_id":"tenant-b","event_type":"beacon_update","record_ts_ms":1700000061000,"beacon":{"mac":"B2","ts_ms":1700000050000},"location":{"id":"L2"}}
+{"record_uid":"r5","tenant_id":"tenant-b","event_type":"beacon_update","record_ts_ms":1700000071000,"beacon":{"mac":"B2","ts_ms":1700000060000},"location":{"id":"L2"}}
+not-a-json-line

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Ingest File</h2>
+  <form action="/runs" method="post" enctype="multipart/form-data">
+    <label>NDJSON file (.txt)
+      <input type="file" name="input_file" accept=".txt" required />
+    </label>
+    <button type="submit">Ingest Whole File</button>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Recent Runs</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Run ID</th>
+        <th>App</th>
+        <th>File</th>
+        <th>Status</th>
+        <th>Lines</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for run in runs %}
+      <tr>
+        <td><a href="/runs/{{ run.run_id }}">{{ run.run_id }}</a></td>
+        <td>{{ run.app_id }}</td>
+        <td>{{ run.source_filename }}</td>
+        <td>{{ run.status }}</td>
+        <td>{{ run.valid_lines }}/{{ run.total_lines }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="5">No runs yet.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

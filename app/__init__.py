@@ -1,0 +1,1 @@
+"""Firehose analysis tool package."""

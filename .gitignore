@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.mypy_cache/
+
+# Environment and secrets
+.env
+.env.backup*
+
+# Local data and outputs
+data/*.duckdb
+data/*.duckdb.wal
+output/runs/
+output/reports/
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/

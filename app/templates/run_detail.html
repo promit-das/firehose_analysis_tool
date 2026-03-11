@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="card">
+  <h2>Run {{ run_context.run.run_id }}</h2>
+  <p><strong>App:</strong> {{ run_context.run.app_id }}</p>
+  <p><strong>Source:</strong> {{ run_context.run.source_filename }}</p>
+  <p><strong>Status:</strong> {{ run_context.run.status }}</p>
+  {% if run_context.run.error_message %}
+  <p><strong>Error:</strong> {{ run_context.run.error_message }}</p>
+  {% endif %}
+
+  <h3>Ingest Stats</h3>
+  <ul>
+    <li>Total lines: {{ run_context.run.total_lines }}</li>
+    <li>Valid lines: {{ run_context.run.valid_lines }}</li>
+    <li>Invalid lines: {{ run_context.run.invalid_lines }}</li>
+    <li>Duplicate lines: {{ run_context.run.duplicate_lines }}</li>
+  </ul>
+
+  <h3>Metric Summary</h3>
+  <ul>
+    <li>Flat events: {{ run_context.summary.flat_event_count }}</li>
+    <li>Distinct beacons: {{ run_context.summary.distinct_beacons }}</li>
+    <li>Distinct tenants: {{ run_context.summary.distinct_tenants }}</li>
+    <li>Delivery breaches: {{ run_context.summary.delivery_breaches }}</li>
+  </ul>
+</section>
+
+<section class="card">
+  <h3>Run Analysis</h3>
+  <p>Ingestion is complete. Provide analysis scope filters below.</p>
+  {% if run_context.available_app_ids %}
+  <p><strong>Available app_id values in this run:</strong> {{ run_context.available_app_ids | join(", ") }}</p>
+  {% endif %}
+  <form method="post" action="/runs/{{ run_context.run.run_id }}/analyze">
+    <label>app_id (required)
+      <input type="text" name="app_id" value="{{ run_context.run.app_id }}" required list="app-id-list" />
+      <datalist id="app-id-list">
+        {% for app_id in run_context.available_app_ids %}
+        <option value="{{ app_id }}"></option>
+        {% endfor %}
+      </datalist>
+    </label>
+
+    <div class="grid-2">
+      <label>tenant_id (optional)
+        <input type="text" name="tenant_id" />
+      </label>
+      <label>event_type (optional)
+        <input type="text" name="event_type" />
+      </label>
+    </div>
+
+    <div class="grid-2">
+      <label>start_ts_ms (optional)
+        <input type="number" name="start_ts_ms" min="0" step="1" />
+      </label>
+      <label>end_ts_ms (optional)
+        <input type="number" name="end_ts_ms" min="0" step="1" />
+      </label>
+    </div>
+
+    <label>delay_breach_ms
+      <input type="number" name="delay_breach_ms" min="0" step="1" value="{{ run_context.default_delay_breach_ms }}" />
+    </label>
+
+    <button type="submit">Run Analysis</button>
+  </form>
+</section>
+
+<section class="card">
+  <h3>Delivery Delay Preview</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Tenant</th>
+        <th>Event</th>
+        <th>Beacon</th>
+        <th>Samples</th>
+        <th>p95 Delay</th>
+        <th>Breaches</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for row in run_context.delay_preview %}
+      <tr>
+        <td>{{ row.tenant_id }}</td>
+        <td>{{ row.event_type }}</td>
+        <td>{{ row.beacon_mac }}</td>
+        <td>{{ row.sample_count }}</td>
+        <td>{{ row.p95_delay_ms }}</td>
+        <td>{{ row.breach_count }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="6">No delay rows.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="card">
+  <h3>Generate Report</h3>
+  <form method="post" action="/runs/{{ run_context.run.run_id }}/report">
+    <label>Additional analysis instructions
+      <textarea name="extra_instructions" rows="5" placeholder="Optional runtime analysis directives"></textarea>
+    </label>
+    <label class="check">
+      <input type="checkbox" name="create_pdf" /> Also attempt PDF export
+    </label>
+    <button type="submit">Generate LLM Report</button>
+  </form>
+</section>
+
+<section class="card">
+  <h3>Artifacts</h3>
+  <ul>
+    {% for artifact in run_context.artifacts %}
+    <li><a href="/runs/{{ run_context.run.run_id }}/artifacts/{{ artifact }}">{{ artifact }}</a></li>
+    {% else %}
+    <li>No artifacts yet.</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}
